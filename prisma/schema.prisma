@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+// model.prisma
+
+// Definición del modelo Category
+model Category {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  subcategory SubCategory[] // Relación uno a muchos con SubCategory
+  products    Product[]
+  materials   Material[]
+}
+
+// Definición del modelo SubCategory
+model SubCategory {
+  id         String    @id @default(uuid())
+  name       String    @unique
+  categoryId String
+  category   Category  @relation(fields: [categoryId], references: [id])
+  products   Product[]
+
+  // La relación con la categoría, usando categoryId como clave foránea
+}
+
+model Product {
+  id                   String      @id @default(uuid())
+  name                 String
+  materialId           String?
+  description          String
+  categoryId           String // Cambiado de Int a String
+  subcategoryId        String // Cambiado de Int a String
+  codeReference        String
+  codeReferenceFactory String
+  createdAt            DateTime    @default(now()) // Agrega esta línea para la fecha de creación
+  variants             Variant[]
+  category             Category    @relation(fields: [categoryId], references: [id])
+  subcategory          SubCategory @relation(fields: [subcategoryId], references: [id])
+  material             Material?   @relation(fields: [materialId], references: [id])
+}
+
+model Variant {
+  id                String   @id @default(uuid())
+  color             String
+  size              String
+  sku               String   @unique
+  price             Float
+  QuantityAvailable Int      @default(0)
+  imgs              String[]
+  productId         String
+  // Otros campos relacionados con la variante si es necesario
+  createdAt         DateTime @default(now()) // Agrega esta línea para la fecha de creación
+
+  // Relaciones
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Material {
+  id         String    @id @default(uuid())
+  name       String
+  category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId String
+  products   Product[]
+}
+
+model SkuCounter {
+  id       String @id @default(uuid())
+  counter  Int    @default(1)
+  category String
+  // Puedes agregar más campos según tus necesidades
+}
