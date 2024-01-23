@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { CreateVariant, UpdateInvoice, UpdateProduct, ViewProduct, } from '../buttons';
-import { prisma } from '@/libs/prisma';
 import DeleteAlertDialog from '@/components/DeleteAlertDialog';
 import { formatCurrency } from '@/middleware/formatCurrency';
 import { get } from 'http';

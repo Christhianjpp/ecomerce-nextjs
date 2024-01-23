@@ -1,10 +1,7 @@
-import Image from 'next/image';
-import { UpdateInvoice, UpdateSubCategory } from '../buttons';
-import { prisma } from '@/libs/prisma';
+import { getSubCategories } from '@/libs/subcategorias/actions';
+import { UpdateSubCategory } from '../buttons';
 import DeleteAlertDialog from '@/components/DeleteAlertDialog';
-// import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
-// import InvoiceStatus from '@/app/ui/invoices/status';
-// import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+
 
 export default async function SubCategoryTable({
     query,
@@ -13,12 +10,8 @@ export default async function SubCategoryTable({
     query: string;
     currentPage: number;
 }) {
-    //   const invoices = await fetchFilteredInvoices(query, currentPage);
-    const subcategories = await prisma.subCategory.findMany({
-        orderBy: {
-            name: 'asc',
-        },
-    });
+
+    const subcategories = await getSubCategories()
 
 
 

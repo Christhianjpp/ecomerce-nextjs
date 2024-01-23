@@ -1,25 +1,72 @@
 
+"use client"
 import {
     AtSymbolIcon,
     KeyIcon,
     ExclamationCircleIcon,
+    EnvelopeIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './ui/button';
 import { lusitana } from './ui/fonts';
+import { FormEvent, useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
 
 
 export default function LoginForm() {
+    const [loading, setLoading] = useState(false)
+    const router = useRouter()
+
+    const [error, setError] = useState('')
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+        setLoading(true)
+
+
+        const resp = await signIn('credentials', {
+            email,
+            password,
+            redirect: false,
+        })
+        setLoading(false)
+        if (resp?.error) return setError(resp.error as string)
+
+        if (resp?.ok) return router.push('/')
+
+    }
     return (
-        <form className="space-y-3">
-            <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-                <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-                    Please log in to continue.
-                </h1>
-                <div className="w-full">
+        <form className="space-y-3" onSubmit={handleSubmit}>
+
+            <div className="flex-1   px-6 pb-4 pt-8 rounded-md border border-gray-200 shadow-lg">
+                <div className='justify-center items-center flex '>
+
+                    <p className={`${lusitana.className}`}>
+                        <EnvelopeIcon className="h-7 w-7 text-gray-500 " />
+
+
+                    </p>
+                    <p className='ml-2 text-xl'>
+
+                        Continua con tu correo
+                    </p>
+                </div>
+                <div className="w-full ">
+                    <div className='h-5 ' id="customer-error" aria-live="polite" aria-atomic="true">
+                        {error &&
+                            <p className="mt-2 text-sm text-red-500">
+                                {error}
+                            </p>
+                        }
+                    </div>
                     <div>
                         <label
-                            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+                            className="mb-3 mt-2 block text-xs font-medium text-gray-900"
                             htmlFor="email"
                         >
                             Email
@@ -30,6 +77,9 @@ export default function LoginForm() {
                                 id="email"
                                 type="email"
                                 name="email"
+                                autoCapitalize="none"
+                                autoComplete="email"
+                                autoCorrect="off"
                                 placeholder="Enter your email address"
                                 required
                             />
@@ -49,6 +99,9 @@ export default function LoginForm() {
                                 id="password"
                                 type="password"
                                 name="password"
+                                autoCapitalize="none"
+                                autoComplete="off"
+                                autoCorrect="off"
                                 placeholder="Enter password"
                                 required
                                 minLength={6}
@@ -57,7 +110,12 @@ export default function LoginForm() {
                         </div>
                     </div>
                 </div>
-                <LoginButton />
+                <Button className="mt-4 w-full bg-slate-700">
+
+                    {loading ? <div className="inline-block animate-spin ease duration-300 w-6 h-6 border-t-4 border-red-600 border-solid rounded-full"></div>
+                        : <div className='flex justify-end w-full'><p>Iniciar Sesión</p> <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" /></div>}
+
+                </Button>
                 <div className="flex h-8 items-end space-x-1">
                     {/* Add form errors here */}
                 </div>
@@ -66,10 +124,4 @@ export default function LoginForm() {
     );
 }
 
-function LoginButton() {
-    return (
-        <Button className="mt-4 w-full">
-            Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-        </Button>
-    );
-}
+

@@ -1,10 +1,10 @@
 'use server'
 import { z } from 'zod'
-import { PrismaClient } from '@prisma/client'
+
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-const prisma = new PrismaClient()
+import prisma from '@/libs/prisma'
 
 const ProductSchema = z.object({
     description: z.string({

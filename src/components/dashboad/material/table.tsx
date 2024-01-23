@@ -1,6 +1,5 @@
-import Image from 'next/image';
-import { UpdateInvoice, UpdateMaterial, UpdateSubCategory } from '../buttons';
-import { prisma } from '@/libs/prisma';
+import { getMaterials } from '@/libs/material/actions';
+import { UpdateMaterial } from '../buttons';
 import DeleteAlertDialog from '@/components/DeleteAlertDialog';
 // import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 // import InvoiceStatus from '@/app/ui/invoices/status';
@@ -14,11 +13,7 @@ export default async function MaterialTable({
     currentPage: number;
 }) {
 
-    const material = await prisma.material.findMany({
-        orderBy: {
-            name: 'asc',
-        },
-    });
+    const material = await getMaterials()
 
 
 

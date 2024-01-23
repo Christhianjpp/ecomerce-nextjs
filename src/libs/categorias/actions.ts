@@ -63,7 +63,11 @@ export const createCategory = async (prevState: State, formData: FormData) => {
 export const getCategories = async () => {
 
     try {
-        const resp = await prisma.category.findMany()
+        const resp = await prisma.category.findMany({
+            orderBy: {
+                name: 'asc'
+            }
+        })
 
         return resp
     } catch (error) {

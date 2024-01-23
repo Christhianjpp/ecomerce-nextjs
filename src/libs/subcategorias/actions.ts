@@ -29,6 +29,7 @@ export type State = {
     message?: string | null;
 };
 
+
 export const createSubCategory = async (prevState: State, formData: FormData) => {
 
     const validatedFields = SubCategorySchema.safeParse({
@@ -144,7 +145,11 @@ export const deleteSubCategory = async (id: string) => {
 export const getSubCategories = async () => {
 
     try {
-        const resp = await prisma.subCategory.findMany()
+        const resp = await prisma.subCategory.findMany({
+            orderBy: {
+                name: 'asc'
+            }
+        })
 
         return resp
     } catch (error) {

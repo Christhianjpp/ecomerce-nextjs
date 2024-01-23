@@ -47,6 +47,13 @@ model Product {
   category             Category    @relation(fields: [categoryId], references: [id])
   subcategory          SubCategory @relation(fields: [subcategoryId], references: [id])
   material             Material?   @relation(fields: [materialId], references: [id])
+  // Relación con Compras
+
+  purchases    Purchase[]
+  // Relación con el Carrito de Compras
+  shoppingCart ShoppingCart[]
+  // Relación con la Lista de Deseos
+  wishlists    User[]         @relation(name: "UserWishlist")
 }
 
 model Variant {
@@ -78,4 +85,48 @@ model SkuCounter {
   counter  Int    @default(1)
   category String
   // Puedes agregar más campos según tus necesidades
+}
+
+// Modelo para Usuario
+model User {
+  id          String         @id @default(uuid())
+  username    String?        @unique
+  email       String         @unique
+  password    String
+  name        String?
+  address     String?
+  phoneNumber String?
+  img         String?
+  role        String         @default("Usuario")
+  createAt    DateTime       @default(now())
+  purchases   Purchase[]
+  carts       ShoppingCart[] // Relación con el carrito de compras
+  wishlist    Product[]      @relation(name: "UserWishlist") // Relación con la lista de deseos
+}
+
+// Modelo para Compras
+model Purchase {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  totalAmount Float
+  // Otros campos relacionados con la compra, como el estado, método de pago, etc.
+  // ...
+
+  // Relación con Productos (asumo que un usuario puede comprar varios productos en una compra)
+  products Product[]
+}
+
+// Modelo para el Carrito de Compras
+// Modelo para el Carrito de Compras
+model ShoppingCart {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  // ...
+
+  // Relación con Productos en el carrito
+  products Product[]
 }

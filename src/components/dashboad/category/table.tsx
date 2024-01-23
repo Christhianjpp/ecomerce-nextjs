@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { UpdateInvoice } from '../buttons';
-import { prisma } from '@/libs/prisma';
+
 import DeleteAlertDialog from '@/components/DeleteAlertDialog';
+import { getCategories } from '@/libs/categorias/actions';
 // import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 // import InvoiceStatus from '@/app/ui/invoices/status';
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
@@ -14,11 +15,7 @@ export default async function CategoryTable({
     currentPage: number;
 }) {
     //   const invoices = await fetchFilteredInvoices(query, currentPage);
-    const categories = await prisma.category.findMany({
-        orderBy: {
-            name: 'asc',
-        },
-    });
+    const categories = await getCategories()
 
 
 

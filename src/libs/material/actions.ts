@@ -137,10 +137,14 @@ export const deleteMaterial = async (id: string) => {
     // redirect('/dashboard/categorias')
 }
 
-export const getSubCategories = async () => {
+export const getMaterials = async () => {
 
     try {
-        const resp = await prisma.subCategory.findMany()
+        const resp = await prisma.material.findMany({
+            orderBy: {
+                name: 'asc'
+            }
+        })
 
         return resp
     } catch (error) {
