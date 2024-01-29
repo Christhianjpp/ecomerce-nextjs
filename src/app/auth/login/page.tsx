@@ -1,7 +1,8 @@
 'use client'
+import GoogleLoginBtn from "@/components/GoogleLoginBtn";
 import LoginForm from "@/components/login-form";
 import { Button } from "@/components/ui/button";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from "next/navigation";
 
 
@@ -21,7 +22,8 @@ export default function LoginPage() {
                         Rise and Shine
                     </div>
                 </div>
-                <Button
+                <GoogleLoginBtn />
+                {/* <Button
                     variant={"outline"}
                     className={"flex items-center justify-center gap-2 w-full h-12 rounded-md border border-gray-200 shadow-lg text-gray-400"}
                     onClick={() => signIn('google')}>
@@ -39,7 +41,7 @@ export default function LoginPage() {
                         </g>
                     </svg>
                     <span className="ml-2 text-lg">Continuar con Google</span>
-                </Button>
+                </Button> */}
 
                 <LoginForm />
             </div>

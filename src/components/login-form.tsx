@@ -3,7 +3,7 @@
 import {
     AtSymbolIcon,
     KeyIcon,
-    ExclamationCircleIcon,
+
     EnvelopeIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
@@ -12,6 +12,7 @@ import { lusitana } from './ui/fonts';
 import { FormEvent, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 
 
@@ -37,13 +38,17 @@ export default function LoginForm() {
         setLoading(false)
         if (resp?.error) return setError(resp.error as string)
 
-        if (resp?.ok) return router.push('/')
+        if (resp?.ok) {
+            router.push('/perfil')
+
+            return
+        }
 
     }
     return (
         <form className="space-y-3" onSubmit={handleSubmit}>
 
-            <div className="flex-1   px-6 pb-4 pt-8 rounded-md border border-gray-200 shadow-lg">
+            <div className="flex-1 px-6 pb-4 pt-6 rounded-md border border-gray-200 shadow-lg opacity-70 hover:opacity-100">
                 <div className='justify-center items-center flex '>
 
                     <p className={`${lusitana.className}`}>
@@ -51,8 +56,7 @@ export default function LoginForm() {
 
 
                     </p>
-                    <p className='ml-2 text-xl'>
-
+                    <p className='ml-2 text-lg'>
                         Continua con tu correo
                     </p>
                 </div>
@@ -66,10 +70,10 @@ export default function LoginForm() {
                     </div>
                     <div>
                         <label
-                            className="mb-3 mt-2 block text-xs font-medium text-gray-900"
+                            className="mb-1  block text-xs font-medium text-gray-900"
                             htmlFor="email"
                         >
-                            Email
+                            Correo electrónico
                         </label>
                         <div className="relative">
                             <input
@@ -88,14 +92,13 @@ export default function LoginForm() {
                     </div>
                     <div className="mt-4">
                         <label
-                            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+                            className="mb-1 mt-5 block text-xs font-medium text-gray-900"
                             htmlFor="password"
                         >
-                            Password
-                        </label>
+                            Contraseña                        </label>
                         <div className="relative">
                             <input
-                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                className=" block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 id="password"
                                 type="password"
                                 name="password"
@@ -110,15 +113,16 @@ export default function LoginForm() {
                         </div>
                     </div>
                 </div>
-                <Button className="mt-4 w-full bg-slate-700">
+                <Button className="mt-6 w-full bg-slate-800">
 
                     {loading ? <div className="inline-block animate-spin ease duration-300 w-6 h-6 border-t-4 border-red-600 border-solid rounded-full"></div>
-                        : <div className='flex justify-end w-full'><p>Iniciar Sesión</p> <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" /></div>}
+                        : <div className='flex justify-center w-full'>
+                            <p>Iniciar Sesión</p>
+                            {/* <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" /> */}
+                        </div>}
 
                 </Button>
-                <div className="flex h-8 items-end space-x-1">
-                    {/* Add form errors here */}
-                </div>
+
             </div>
         </form>
     );

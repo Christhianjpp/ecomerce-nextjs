@@ -1,6 +1,6 @@
 import Breadcrumbs from '@/components/dashboad/breadcrumbs'
 import FormSKUEdit from '@/components/dashboad/product/form-sku-edit'
-import { prisma } from '@/libs/prisma'
+import prisma from '@/libs/prisma'
 import React from 'react'
 
 const EditSKU = async ({ params }: { params: { id: string, ids: string } }) => {

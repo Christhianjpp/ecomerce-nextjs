@@ -2,7 +2,7 @@ import Breadcrumbs from '@/components/dashboad/breadcrumbs'
 import Form from '@/components/dashboad/subcategory/form'
 import { getCategories } from '@/libs/categorias/actions'
 
-import { prisma } from '@/libs/prisma'
+import prisma from '@/libs/prisma'
 
 
 import React from 'react'

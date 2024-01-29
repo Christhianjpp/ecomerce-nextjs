@@ -1,6 +1,6 @@
 import Breadcrumbs from '@/components/dashboad/breadcrumbs';
 import ViewProduct from '@/components/dashboad/product/ViewProduct';
-import { prisma } from '@/libs/prisma';
+import prisma from '@/libs/prisma';
 import React from 'react'
 
 const Producto = async ({ params }: { params: { id: string } }) => {

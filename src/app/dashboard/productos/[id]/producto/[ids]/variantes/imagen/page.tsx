@@ -1,7 +1,7 @@
 import Breadcrumbs from '@/components/dashboad/breadcrumbs'
 import { ImageSKU } from '@/components/dashboad/buttons'
 import ImagenSKU from '@/components/dashboad/product/ImagenSKU'
-import { prisma } from '@/libs/prisma'
+import prisma from '@/libs/prisma'
 import { getVariant } from '@/libs/sku/actions'
 import React from 'react'
 
