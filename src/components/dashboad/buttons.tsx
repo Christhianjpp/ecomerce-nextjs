@@ -17,6 +17,19 @@ export function CreateProduct() {
     );
 
 }
+export function AddProducts() {
+    return (
+        <Link
+            href="/dashboard/productos/agregar-productos"
+            className="flex h-10 items-center rounded-lg bg-gray-300 px-4 text-sm font-medium text-black transition-colors
+             hover:bg-gray-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+        >
+            <span className="hidden md:block">Agregar Productos</span>{' '}
+            <PlusIcon className="h-5 md:ml-4" />
+        </Link>
+    );
+
+}
 export function UpdateSku({ id, ids }: { id: string, ids: string }) {
 
     return (

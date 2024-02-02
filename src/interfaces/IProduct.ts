@@ -139,3 +139,30 @@ export interface IVariantView {
     productId: string;
     createdAt: Date; // Cambiar a tipo de fecha si es necesario
 }
+
+
+
+export interface IProductMap {
+
+    id: string;
+    materialId: string | null;
+    variants: {
+        price: number;
+        QuantityAvailable: number;
+        imgs: string[];
+    }[];
+    category: {
+        id: string;
+        name: string;
+    };
+    subcategory: {
+        id: string;
+        name: string;
+    };
+    material: {
+        id: string;
+        name: string;
+
+    } | null;
+
+} 

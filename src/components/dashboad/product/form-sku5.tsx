@@ -7,7 +7,8 @@ import {
     SwatchIcon,
 } from '@heroicons/react/24/outline';
 import { useFormState } from 'react-dom';
-import { createVariant } from '@/libs/sku/action';
+import { createVariant } from '@/libs/sku/action5';
+
 
 
 
@@ -27,7 +28,7 @@ export default function FormSKU({ id }: Props) {
 
     const handleAction = createVariant.bind(null, id);
 
-    const [state, dispatch] = useFormState(handleAction, initialState);
+    // const [state, dispatch] = useFormState(handleAction, initialState);
 
 
 
@@ -40,10 +41,10 @@ export default function FormSKU({ id }: Props) {
 
     return (
         // <form action={createProduct}>
-        <form action={dispatch}>
+        <form>
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
-                {JSON.stringify(state)}
+
                 <div className="mb-4">
                     <label htmlFor="color" className="mb-2 block text-sm font-medium">
                         Color

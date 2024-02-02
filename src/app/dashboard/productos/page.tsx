@@ -1,15 +1,14 @@
 import Search from '@/components/dashboad/Search';
-import { CreateProduct } from '@/components/dashboad/buttons';
+import { AddProducts, CreateProduct } from '@/components/dashboad/buttons';
 import Pagination from '@/components/dashboad/pagination';
 import SkeletonsProducts from '@/components/dashboad/product/skeletons-products';
 import ProductTable from '@/components/dashboad/product/table';
 import { lusitana } from '@/components/ui/fonts';
 import { getTotalPages } from '@/libs/products/actions';
 import React, { Suspense } from 'react'
+import AddAllProducts from './agregar-productos/page';
 
-const Productos = async ({
-    searchParams
-}: {
+const Productos = async ({ searchParams }: {
     searchParams?: {
         query?: string;
         page?: string;
@@ -20,7 +19,6 @@ const Productos = async ({
     const currentPage = Number(searchParams?.page) || 1;
     const query = searchParams?.query || '';
     const totalPages = await getTotalPages(query)
-    console.log(totalPages)
     return (
         <div className="w-full">
             <div className="flex w-full items-center justify-between">
@@ -29,6 +27,7 @@ const Productos = async ({
             <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
                 <Search placeholder="Search invoices..." />
                 <CreateProduct />
+                <AddProducts />
             </div>
             <Suspense
                 key={query + currentPage}

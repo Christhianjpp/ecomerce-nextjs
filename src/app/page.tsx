@@ -1,12 +1,19 @@
+import AllProductsHome from "@/components/AllProductsHome";
 
-import React from 'react'
 
-const page = () => {
+const page = async ({ searchParams }: {
+  searchParams: {
+    query?: string;
+    page?: string;
+
+  }
+}) => {
+
 
 
   return (
-    <div>
-
+    <div className="h-full">
+      <AllProductsHome searchParams={searchParams} />
     </div>
   )
 }

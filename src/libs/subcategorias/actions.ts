@@ -72,9 +72,10 @@ export const createSubCategory = async (prevState: State, formData: FormData) =>
 export const getSubCategory = async (id: string) => {
 
     try {
-        const resp = await prisma.subCategory.findMany({ where: { id } })
+        const resp = await prisma.subCategory.findMany({
+            where: { id }
+        })
 
-        console.log({ resp })
 
         return resp[0]
     } catch (error) {

@@ -75,6 +75,21 @@ export const createProduct = async (prevState: State, formData: FormData) => {
     redirect('/dashboard/productos')
 }
 
+
+
+export const CreateAllProducts = async (data: any) => {
+    try {
+        // utiliza transacciones para garantizar que todas las operaciones tengan éxito o ninguna
+        const newData = await prisma.product.createMany({ data })
+        console.log('Múltiples productos creados con éxito.');
+    } catch (error) {
+        console.error('Error al crear múltiples productos:', error);
+    } finally {
+        // cierra la conexión de Prisma
+        await prisma.$disconnect();
+    }
+}
+
 export const deleteProduct = async (id: string) => {
     try {
         await prisma.product.delete({
@@ -170,68 +185,276 @@ export const getProductEdit = async (id: string) => {
     return productos
 }
 
+export const getProductFull = async (id: string) => {
+    try {
+
+
+        const product = await prisma.product.findFirst({
+            where: {
+                id: id,
+            },
+            orderBy: {
+                name: 'asc',
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                categoryId: true,
+                subcategoryId: true,
+                codeReference: true,
+                codeReferenceFactory: true,
+                materialId: true,
+                category: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                subcategory: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                material: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                variants: {
+                    select: {
+                        imgs: true,
+                        price: true,
+                        QuantityAvailable: true,
+                    }
+                }
+            },
+        });
+
+        return product
+    } catch (error) {
+
+        console.error('Error:', error);
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
 const ITEMS_PER_PAGE = 6;
 export const getProducts = async (currentPage: number, query: string) => {
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-    const products = await prisma.product.findMany({
-        where: {
-            OR: [
-                {
-                    name: {
-                        contains: query,
-                        mode: 'insensitive',
+    try {
+        const products = await prisma.product.findMany({
+            where: {
+                OR: [
+                    {
+                        name: {
+                            contains: query,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        description: {
+                            contains: query,
+                            mode: 'insensitive',
+                        },
+                    },
+                ],
+            },
+            orderBy: {
+                name: 'asc',
+            },
+            skip: offset,
+            take: ITEMS_PER_PAGE,
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                categoryId: true,
+                subcategoryId: true,
+                codeReference: true,
+                codeReferenceFactory: true,
+                materialId: true,
+                category: {
+                    select: {
+                        id: true,
+                        name: true,
                     },
                 },
-                {
-                    description: {
-                        contains: query,
-                        mode: 'insensitive',
+                subcategory: {
+                    select: {
+                        id: true,
+                        name: true,
                     },
                 },
-            ],
-        },
-        orderBy: {
-            name: 'asc',
-        },
-        skip: offset,
-        take: ITEMS_PER_PAGE,
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            categoryId: true,
-            subcategoryId: true,
-            codeReference: true,
-            codeReferenceFactory: true,
-            materialId: true,
-            category: {
-                select: {
-                    id: true,
-                    name: true,
+                material: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
                 },
-            },
-            subcategory: {
-                select: {
-                    id: true,
-                    name: true,
-                },
-            },
-            material: {
-                select: {
-                    id: true,
-                    name: true,
-                },
-            },
-            variants: {
-                select: {
-                    imgs: true,
-                    price: true,
-                    QuantityAvailable: true,
+                variants: {
+                    select: {
+                        imgs: true,
+                        price: true,
+                        QuantityAvailable: true,
+                    }
                 }
-            }
-        },
-    });
-    return products
+            },
+
+        });// Operaciones con la base de datos
+        return products
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        await prisma.$disconnect();
+    }
+
+
+}
+
+export const getProductsHome = async (currentPage: number, query: string) => {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+    try {
+        const products = await prisma.product.findMany({
+            where: {
+                OR: [
+                    {
+                        name: {
+                            contains: query,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        description: {
+                            contains: query,
+                            mode: 'insensitive',
+                        },
+                    },
+                ],
+            },
+            orderBy: {
+                name: 'asc',
+            },
+            skip: offset,
+            take: ITEMS_PER_PAGE,
+            select: {
+                id: true,
+
+
+                materialId: true,
+                category: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                subcategory: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                material: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                variants: {
+                    select: {
+                        imgs: true,
+                        price: true,
+                        QuantityAvailable: true,
+                    }
+                }
+            },
+
+        });// Operaciones con la base de datos
+        return products
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        await prisma.$disconnect();
+    }
+
+
+}
+export const getProductsCategory = async (currentPage: number, categoria: string, query?: string) => {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+    try {
+        const products = await prisma.product.findMany({
+            where: {
+                subcategory: {
+                    name: categoria,
+                },
+                AND: [
+                    {
+                        OR: [
+                            {
+                                name: {
+                                    contains: query,
+                                    mode: 'insensitive',
+                                },
+                            },
+                            {
+                                description: {
+                                    contains: query,
+                                    mode: 'insensitive',
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+            orderBy: {
+                name: 'asc',
+            },
+            skip: offset,
+            take: ITEMS_PER_PAGE,
+            select: {
+                id: true,
+
+
+                materialId: true,
+                category: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                subcategory: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                material: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                variants: {
+                    select: {
+                        imgs: true,
+                        price: true,
+                        QuantityAvailable: true,
+                    }
+                }
+            },
+
+        });// Operaciones con la base de datos
+        return products
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        await prisma.$disconnect();
+    }
+
 
 }
 
@@ -250,6 +473,35 @@ export const getTotalPages = async (query: string) => {
                         contains: query,
                         mode: 'insensitive',
                     },
+                },
+            ],
+        },
+    });
+    return Math.ceil(totalProducts / ITEMS_PER_PAGE);
+}
+
+export const getTotalCategoryPages = async (categoria: string, query?: string) => {
+    const totalProducts = await prisma.product.count({
+        where: {
+            subcategory: {
+                name: categoria,
+            },
+            AND: [
+                {
+                    OR: [
+                        {
+                            name: {
+                                contains: query,
+                                mode: 'insensitive',
+                            },
+                        },
+                        {
+                            description: {
+                                contains: query,
+                                mode: 'insensitive',
+                            },
+                        },
+                    ],
                 },
             ],
         },

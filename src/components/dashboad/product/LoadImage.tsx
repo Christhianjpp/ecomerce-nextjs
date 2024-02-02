@@ -1,9 +1,13 @@
 'use client'
 
 import { FormEvent, useState } from "react"
-import { prisma } from "@/libs/prisma";
+import prisma from "@/libs/prisma";
 import { updateImgs } from "@/libs/sku/actions";
 import { uploadImageCloudinaryCrop } from "@/middleware/uploadImageCloudinary";
+import { Cross2Icon, ImageIcon } from '@radix-ui/react-icons'
+
+
+
 
 
 
@@ -74,22 +78,8 @@ const LoadImage = ({ imgsDB, id }: Props) => {
                             <button className="absolute top-1 right-1 bg-gray-400 hover:bg-gray-500 rounded-sm p-1"
                                 onClick={() => setImageSKUBD((prev) => prev.filter((_, i) => i !== index))}
                             >
-                                <svg
-                                    className="w-5 h-5 text-white hover:text-red-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-
+                                < Cross2Icon className="w-5 h-5  text-white hover:text-red-500" />
                             </button>
-
                         </div>
 
 
@@ -108,19 +98,8 @@ const LoadImage = ({ imgsDB, id }: Props) => {
                             <button className="absolute top-1 right-1 bg-gray-400 hover:bg-gray-500 rounded-sm p-1"
                                 onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))}
                             >
-                                <svg
-                                    className="w-5 h-5 text-white hover:text-red-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
+                                < Cross2Icon className="w-5 h-5  text-white hover:text-red-500" />
+
 
                             </button>
 
@@ -137,19 +116,8 @@ const LoadImage = ({ imgsDB, id }: Props) => {
                     <div className="flex items-center justify-center ">
                         <label className="flex flex-col rounded-lg border-4 border-dashed w-full h-44 justify-center p-5   group text-center">
                             <div className="flex flex-col items-center justify-center ">
-                                <svg
-                                    className="w-8 h-8 text-gray-400 group-hover:text-gray-600"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                    />
-                                </svg>
+                                <ImageIcon className="w-8 h-8" />
+
 
                                 <p className="lowercase text-sm text-gray-400 group-hover:text-gray-600 pt-1 tracking-wider">
                                     Selets Images
